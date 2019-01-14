@@ -41,3 +41,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: FogOfWar
+    uniqueID: 206360025
+    locked: 0
+  - name: Light Ext inner
+    uniqueID: 883438857
+    locked: 0
+  - name: Light Ext outer
+    uniqueID: 2692277045
+    locked: 0
+  - name: Light Player inner
+    uniqueID: 39914237
+    locked: 0
+  - name: Light Player outer
+    uniqueID: 2297447133
+    locked: 0
