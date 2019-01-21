@@ -2,20 +2,23 @@
 
 public class PlayerMovement : MonoBehaviour {
 
-    private float minSpeed = 4f * 8;
-    private float maxSpeed = 13f * 8;
-    private float acceleration = 20f * 6;
-    private float speed;
+    private static PlayerStats.Player player = new PlayerStats.Player();
+    //private PlayerAnimation playerAnim = new PlayerAnimation();
 
-    private float jumpCoolDown;
-    private float dashCoolDown;
+    private float minSpeed = player.minSpeed;
+    private float maxSpeed = player.maxSpeed;
+    private float acceleration = player.acceleration;
+    private float maxJumpHeight = player.maxJumpHeight;
+    private float speed = player.speed;
+    
+    private float dashCoolDown = player.dashCoolDown;
+    private float airTime = player.airTime;
     private float yPos;
-    private float airTime;
-    private float dashTime;
-    private float maxJumpHeight = 3f;
 
     private float horizontalMove;
-    
+
+    private int state = 0;
+
     private bool isJumping;
     private bool isDashing;
 
@@ -24,18 +27,21 @@ public class PlayerMovement : MonoBehaviour {
     private void Start()
     {
         isJumping = false;
-        speed = 1f;
         rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
+        if (rb.velocity.y < 0)
+        {
+            rb.position += new Vector2(0, 0.008f);
+        }
 
-        //if (jumpCoolDown > 0)
-        //{
-        //    jumpCoolDown -= Time.deltaTime;
-        //}
-
+        if (speed <= minSpeed)
+        {
+            state = 0;
+        }
+        
         if (Input.GetKeyUp(KeyCode.Space))
         {
             airTime = 0f;
@@ -54,34 +60,27 @@ public class PlayerMovement : MonoBehaviour {
         {
             rb.velocity = rb.velocity.normalized * maxSpeed;
         }
+
+        //playerAnim.SetState(state);
     }
     
     public void MoveLeft()
     {
-
-
         if (speed < maxSpeed)
         {
             speed += acceleration;
         }
 
-        rb.position -= new Vector2((speed * Time.deltaTime) / 100, -0.001f);
-
-        //rb.AddForce((Vector2.left * speed) * Time.deltaTime, ForceMode2D.Force);
+        rb.position -= new Vector2((speed * Time.deltaTime) / 100, 0f);
     }
 
     public void MoveRight()
     {
-
-
         if (speed < maxSpeed)
         {
             speed += acceleration;
         }
-
-        rb.position += new Vector2((speed * Time.deltaTime) / 100, 0.001f);
-
-        //rb.AddForce((Vector2.right * speed) * Time.deltaTime, ForceMode2D.Force);
+        rb.position += new Vector2((speed * Time.deltaTime) / 100, 0f);
     }
 
     public void SlowDown()
@@ -94,8 +93,6 @@ public class PlayerMovement : MonoBehaviour {
 
     public void Jump()
     {
-        if (jumpCoolDown <= 0)
-        {
             if (!isJumping)
             {
                 airTime = 0.4f;
@@ -104,24 +101,12 @@ public class PlayerMovement : MonoBehaviour {
             }
 
             airTime -= Time.deltaTime;
-
-            
+   
             if (airTime > 0)
             {
                 rb.position += new Vector2(0f, maxJumpHeight * Time.deltaTime);
-                //rb.AddForce(new Vector2(0, maxJumpHeight), ForceMode2D.Impulse);
             }
-            //else
-            //{
-            //    jumpCoolDown = 2f;
-            //}
-            
-            //if (yPos - transform.position.y > maxJumpHeight)
-            //{
-            //    jumpCoolDown = 2f;
-            //}
         }
-    }
 
     public void Dash()
     {
@@ -129,6 +114,7 @@ public class PlayerMovement : MonoBehaviour {
         {
             isDashing = true;
             speed += 100;
+            state = 2;
             Invoke("Stop", 0.1f);
         }
     }
@@ -136,6 +122,7 @@ public class PlayerMovement : MonoBehaviour {
     private void Stop()
     {
         speed -= 100;
+        state = 1;
         dashCoolDown = 1f;
     }
 
@@ -144,9 +131,28 @@ public class PlayerMovement : MonoBehaviour {
         return transform.position.y;
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (isDashing && collision.transform.tag == "Enemy")
+        {
+            CancelInvoke("Stop");
+            Stop();
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         isJumping = false;
+
+        if (speed < 100)
+        {
+            state = 1;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        state = 3;
     }
 
 }
