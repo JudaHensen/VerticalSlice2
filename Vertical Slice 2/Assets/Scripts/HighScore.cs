@@ -8,18 +8,18 @@ public class HighScore : MonoBehaviour{
 
     void Start()
     {
-        highScore.text = PlayerPrefs.GetInt("HighScore", 0).ToString();
+        highScore.text = "HighScore: " + PlayerPrefs.GetInt("HighScore", 0).ToString();
     }
 
     public void RollDice()
     {
-        int number = Random.Range(1, 20);
-        score.text = number.ToString();
+        int number = Random.Range(1, 101);
+        score.text = "Score: " + number.ToString();
 
         if(number > PlayerPrefs.GetInt("HighScore", 0))
         {
             PlayerPrefs.SetInt("HighScore", number);
-            highScore.text = number.ToString();
+            highScore.text = "HighScore: " + number.ToString();
         }
         
     }
