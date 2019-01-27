@@ -15,7 +15,8 @@ public class InputHandler : MonoBehaviour
     //Movement
     private KeyCode movLeft = KeyCode.A;
     private KeyCode movRight = KeyCode.D;
-    private KeyCode jump = KeyCode.Space;
+    private KeyCode jump1 = KeyCode.W;
+    private KeyCode jump2 = KeyCode.Space;
 
     //Dash
     private KeyCode dash = KeyCode.LeftShift;
@@ -47,7 +48,7 @@ public class InputHandler : MonoBehaviour
             movement.SlowDown();
         }
 
-        if (Input.GetKey(jump))
+        if (Input.GetKey(jump1) || Input.GetKey(jump2))
         {
             movement.Jump();
         }
