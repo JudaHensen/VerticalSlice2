@@ -32,19 +32,23 @@ public class GeneralFx : MonoBehaviour {
 
     private void PlayerDeath() {
         source.clip = playerDeathFx[Random.Range(0, playerDeathFx.Count)];
+        source.Play();
     }
 
     private void BossDeath() {
         source.clip = bossDeathFx[Random.Range(0, bossDeathFx.Count)];
+        source.Play();
     }
 
     private void MenuClick()
     {
         source.clip = menuClickFx;
+        source.Play();
     }
 
 
     private void BossSlain() {
         source.clip = bossSlainFx;
+        source.Play();
     }
 }

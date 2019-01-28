@@ -59,7 +59,6 @@ public class AudioSystem : MonoBehaviour {
 
     public void ButtonClick()
     {
-        Debug.Log("clicked a button");
         UIButtonClick();       
     }
 
