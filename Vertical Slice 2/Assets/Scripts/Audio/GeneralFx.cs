@@ -8,10 +8,13 @@ public class GeneralFx : MonoBehaviour {
     public List<AudioClip> playerDeathFx;
 
     [Header("Boss death")]
-    public AudioClip bossDeathFx;
+    public List<AudioClip> bossDeathFx;
 
     [Header("Boss slain Fx")]
     public AudioClip bossSlainFx;
+
+    [Header("Menu click Fx")]
+    public AudioClip menuClickFx;
 
     private AudioSystem audioSystem;
     private AudioSource source;
@@ -24,6 +27,7 @@ public class GeneralFx : MonoBehaviour {
         audioSystem.PlayerDeath += PlayerDeath;
         audioSystem.BossDeath += BossDeath;
         audioSystem.BossSlain += BossSlain;
+        audioSystem.UIButtonClick += MenuClick;
     }
 
     private void PlayerDeath() {
@@ -31,7 +35,12 @@ public class GeneralFx : MonoBehaviour {
     }
 
     private void BossDeath() {
-        source.clip = bossDeathFx;
+        source.clip = bossDeathFx[Random.Range(0, bossDeathFx.Count)];
+    }
+
+    private void MenuClick()
+    {
+        source.clip = menuClickFx;
     }
 
 

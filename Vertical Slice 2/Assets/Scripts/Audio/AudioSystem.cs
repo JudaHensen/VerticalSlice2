@@ -15,7 +15,8 @@ public class AudioSystem : MonoBehaviour {
     public event Action<int> PlayerSlash, PlayerHit;
     public event Action BossSlash, BossHit;
     
-    public event Action PlayerDeath, BossDeath, BossSlain;
+    // General Fx
+    public event Action PlayerDeath, BossDeath, BossSlain, UIButtonClick;
 
 
     void Update()
@@ -56,6 +57,11 @@ public class AudioSystem : MonoBehaviour {
         BossHit();
     }
 
+    public void ButtonClick()
+    {
+        Debug.Log("clicked a button");
+        UIButtonClick();       
+    }
 
     public void Kill(string entity)
     {
