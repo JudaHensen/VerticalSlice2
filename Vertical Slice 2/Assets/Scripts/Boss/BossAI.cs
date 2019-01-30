@@ -19,8 +19,8 @@ public class BossAI : MonoBehaviour
 
     private Vector2 dest;
 
-    private float followRange = 0.6f;
-    private float attackRange = 0.3f;
+    private float followRange = 0.9f;
+    private float attackRange = 0.6f;
     private float distanceToTarget;
     private bool isAttacking = false;
     private bool isDead = false;
@@ -129,11 +129,11 @@ public class BossAI : MonoBehaviour
 
             if (!isAtMax)
             {
-                transform.eulerAngles = new Vector3(transform.rotation.x, 0f, transform.rotation.z);
+                transform.eulerAngles = new Vector3(transform.rotation.x, 180f, transform.rotation.z);
             }
             else
             {
-                transform.eulerAngles = new Vector3(transform.rotation.x, 180f, transform.rotation.z);
+                transform.eulerAngles = new Vector3(transform.rotation.x, 0f, transform.rotation.z);
             }
 
             if (hitCoolDown > 0)

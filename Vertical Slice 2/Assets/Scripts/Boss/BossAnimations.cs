@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class BossAnimations : MonoBehaviour {
 
-    Animator animator;
+    public Animator animator;
 
     private float state;
-
-    void Start()
-    {
-        animator = GetComponent<Animator>();
-    }
+    
 
     void Update()
     {
