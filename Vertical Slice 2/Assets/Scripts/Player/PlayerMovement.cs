@@ -2,8 +2,8 @@
 
 public class PlayerMovement : MonoBehaviour {
 
-    private static PlayerStats.Player player = new PlayerStats.Player();
-    //private PlayerAnimation playerAnim = new PlayerAnimation();
+    private static Player player = new Player();
+    private PlayerAnimations playerAnim;
 
     private float minSpeed = player.minSpeed;
     private float maxSpeed = player.maxSpeed;
@@ -21,12 +21,15 @@ public class PlayerMovement : MonoBehaviour {
 
     private bool isJumping;
     private bool isDashing;
+    private bool isAttacking;
 
     private Rigidbody2D rb;
 
     private void Start()
     {
         isJumping = false;
+        isAttacking = false;
+        playerAnim = GetComponent<PlayerAnimations>();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -34,10 +37,10 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (rb.velocity.y < 0)
         {
-            rb.position += new Vector2(0, 0.008f);
+            rb.position += new Vector2(0, 0.004f);
         }
 
-        if (speed <= minSpeed)
+        if (speed <= minSpeed && !isJumping)
         {
             state = 0;
         }
@@ -61,7 +64,7 @@ public class PlayerMovement : MonoBehaviour {
             rb.velocity = rb.velocity.normalized * maxSpeed;
         }
 
-        //playerAnim.SetState(state);
+        playerAnim.SetState(state);
     }
     
     public void MoveLeft()
@@ -70,6 +73,8 @@ public class PlayerMovement : MonoBehaviour {
         {
             speed += acceleration;
         }
+
+        state = 1;
 
         rb.position -= new Vector2((speed * Time.deltaTime) / 100, 0f);
     }
@@ -80,6 +85,9 @@ public class PlayerMovement : MonoBehaviour {
         {
             speed += acceleration;
         }
+
+        state = 1;
+
         rb.position += new Vector2((speed * Time.deltaTime) / 100, 0f);
     }
 
@@ -105,6 +113,7 @@ public class PlayerMovement : MonoBehaviour {
             if (airTime > 0)
             {
                 rb.position += new Vector2(0f, maxJumpHeight * Time.deltaTime);
+                state = 3;
             }
         }
 
@@ -122,13 +131,24 @@ public class PlayerMovement : MonoBehaviour {
     private void Stop()
     {
         speed -= 100;
-        state = 1;
         dashCoolDown = 1f;
     }
 
     private float GetHeight()
     {
         return transform.position.y;
+    }
+
+    public void Attack()
+    {
+        gameObject.tag = "Attacking";
+        Invoke("ResetTag", 1f);
+    }
+
+    void ResetTag()
+    {
+        
+        gameObject.tag = "Player";
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -143,16 +163,5 @@ public class PlayerMovement : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision)
     {
         isJumping = false;
-
-        if (speed < 100)
-        {
-            state = 1;
-        }
     }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        state = 3;
-    }
-
 }

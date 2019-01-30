@@ -22,7 +22,7 @@ public class InputHandler : MonoBehaviour
     private KeyCode dash = KeyCode.LeftShift;
 
     //Actions
-    //private KeyCode attack = KeyCode.Mouse0;
+    private KeyCode attack = KeyCode.Mouse0;
     //private KeyCode menu = KeyCode.Escape;
     //private KeyCode testFunction = KeyCode.T;
 
@@ -51,6 +51,11 @@ public class InputHandler : MonoBehaviour
         if (Input.GetKey(jump1) || Input.GetKey(jump2))
         {
             movement.Jump();
+        }
+
+        if (Input.GetKeyDown(attack))
+        {
+            movement.Attack();
         }
 
         //if (Input.GetKeyDown(menu))
