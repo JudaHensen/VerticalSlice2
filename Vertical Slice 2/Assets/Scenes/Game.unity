@@ -364,7 +364,7 @@ GameObject:
   - component: {fileID: 498325190}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -381,6 +381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c56ff1be0d45b43807b9d6ab6c5fbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseMenu: {fileID: 0}
 --- !u!114 &498325191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -886,6 +887,10 @@ Prefab:
       propertyPath: m_FontData.m_FontSize
       value: 32
       objectReference: {fileID: 0}
+    - target: {fileID: 1895056707449114, guid: 135ee76ec4a7cbc4ea5aa85aab171be8, type: 2}
+      propertyPath: m_TagString
+      value: DeathScreen
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 135ee76ec4a7cbc4ea5aa85aab171be8, type: 2}
   m_IsPrefabParent: 0
@@ -1213,6 +1218,10 @@ Prefab:
         type: 2}
       propertyPath: m_AnchoredPosition.y
       value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1068606764258100, guid: e10d5b9e13772bb4b8dab9e849bf7b26, type: 2}
+      propertyPath: m_TagString
+      value: PauseMenu
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e10d5b9e13772bb4b8dab9e849bf7b26, type: 2}
