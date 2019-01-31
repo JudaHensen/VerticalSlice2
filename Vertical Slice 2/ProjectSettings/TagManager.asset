@@ -47,6 +47,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Plants
+    uniqueID: 3112142413
+    locked: 0
   - name: FogOfWar
     uniqueID: 206360025
     locked: 0
