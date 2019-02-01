@@ -50,6 +50,12 @@ TagManager:
   - name: Far_Trees
     uniqueID: 2590940599
     locked: 0
+  - name: Bushes
+    uniqueID: 1765942759
+    locked: 0
+  - name: Rocks
+    uniqueID: 2191692617
+    locked: 0
   - name: Environment
     uniqueID: 2606923937
     locked: 0
