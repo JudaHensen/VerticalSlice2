@@ -34,7 +34,7 @@ public class BossAnimations : MonoBehaviour
         }
 
         //check if boss is attacking
-        if(BossAttack.isAttacking == true)
+        if(BossAttack.isAttacking)
         {
             return BossAnimationStates.attack;
         }

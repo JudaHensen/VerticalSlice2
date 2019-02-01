@@ -11,6 +11,9 @@ public class BossAI : MonoBehaviour
 
     private float chaseAmp = 1.5f;
 
+    public static float setIgnore = 2f;
+    public static float ignoreTime = 0f;
+
     private bool isAtMax = false;
 
     private float distanceToTarget;
@@ -44,11 +47,21 @@ public class BossAI : MonoBehaviour
             return;
         }
 
+        if (ignoreTime > 0)
+            ignoreTime -= Time.deltaTime;
+
         //Find the player
-        player = GameObject.FindGameObjectWithTag("Player");
-        if (player == null)
+        if (ignoreTime <= 0)
         {
-            player = GameObject.FindGameObjectWithTag("Attacking");
+            player = GameObject.FindGameObjectWithTag("Player");
+            if (player == null)
+            {
+                player = GameObject.FindGameObjectWithTag("Attacking");
+            }
+        }
+        else
+        {
+            player = null;
         }
 
         //Calculate distance
@@ -115,6 +128,10 @@ public class BossAI : MonoBehaviour
 
     }
 
+    public void SetIgnoreTime()
+    {
+        ignoreTime = setIgnore;
+    }
 
     public float GetRange()
     {
@@ -126,27 +143,3 @@ public class BossAI : MonoBehaviour
     }
 
 }
-
-//public void Hit(float amount)
-//{
-//    if (health > 0)
-//    {
-//        state = 2;
-
-//        if (!isHit)
-//        {
-//            isHit = true;
-//            hitCoolDown = (1f / 3f) * 2;
-//            health -= amount;
-//            Debug.Log(health);
-//        }
-//    } else
-//    {
-//        Debug.Log("Die");
-//        isDead = true;
-//        state = 4;
-//        anim.SetState(state);
-//        Invoke("Die", 1f);
-//    }
-//}
-
