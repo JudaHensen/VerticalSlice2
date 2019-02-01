@@ -44,6 +44,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 3468982415
+    locked: 0
+  - name: Far_Trees
+    uniqueID: 2590940599
+    locked: 0
+  - name: Environment
+    uniqueID: 2606923937
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
