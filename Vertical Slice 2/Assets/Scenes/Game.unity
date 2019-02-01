@@ -499,6 +499,11 @@ Prefab:
       propertyPath: playerDeathFx.Array.size
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114511954501710622, guid: 786ee714b7410a94aa2ec36622dc75a7,
+        type: 2}
+      propertyPath: playerSlashes.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4464010386507588, guid: 786ee714b7410a94aa2ec36622dc75a7, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -575,6 +580,31 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 82871167868468804, guid: 786ee714b7410a94aa2ec36622dc75a7,
+        type: 2}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 728cd89d37812524cac5dc1373a49f6a, type: 3}
+    - target: {fileID: 114511954501710622, guid: 786ee714b7410a94aa2ec36622dc75a7,
+        type: 2}
+      propertyPath: playerSlashes.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: cdb27949e4dcb3b448db55ceb55a07d7, type: 3}
+    - target: {fileID: 114511954501710622, guid: 786ee714b7410a94aa2ec36622dc75a7,
+        type: 2}
+      propertyPath: playerSlashes.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: cdb27949e4dcb3b448db55ceb55a07d7, type: 3}
+    - target: {fileID: 114511954501710622, guid: 786ee714b7410a94aa2ec36622dc75a7,
+        type: 2}
+      propertyPath: playerSlashes.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: fbacb042391c1b146865ded40d1058bf, type: 3}
+    - target: {fileID: 114511954501710622, guid: 786ee714b7410a94aa2ec36622dc75a7,
+        type: 2}
+      propertyPath: playerSlashes.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 53dc4b3e4d3f5db4abea2303628b7103, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 786ee714b7410a94aa2ec36622dc75a7, type: 2}
   m_IsPrefabParent: 0
