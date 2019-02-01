@@ -5,10 +5,13 @@ public class InputHandler : MonoBehaviour
     private PlayerMovement movement;
     private PlayerAttack playerAttack;
 
+    private PauseMenu pauseMenu;
+
     void Start()
     {
         movement = FindObjectOfType<PlayerMovement>();
         playerAttack = FindObjectOfType<PlayerAttack>();
+        pauseMenu = GameObject.FindWithTag("Canvas").GetComponent<PauseMenu>();
     }
 
     //Movement
@@ -23,22 +26,30 @@ public class InputHandler : MonoBehaviour
     //Actions
     private KeyCode attack = KeyCode.Mouse0;
 
+    private KeyCode menu = KeyCode.Escape;
+
+
 
     //TO-DO
-    //private KeyCode menu = KeyCode.Escape;
     //private KeyCode testFunction = KeyCode.T;
 
     void Update()
     {
+
+
         if (Player.health > 0)
         {
             UpdatePlayer();
         }
 
-        //if (Input.GetKeyDown(attack))
-        //{
-        //    Boss.health = 0;
-        //}
+        if (Input.GetKeyDown(menu))
+        {
+            pauseMenu.ActivatePause();
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+            Player.health = 0;
+
     }
 
     void UpdatePlayer()

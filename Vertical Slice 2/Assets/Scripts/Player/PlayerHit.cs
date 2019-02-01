@@ -12,7 +12,7 @@ public class PlayerHit : MonoBehaviour {
         PlayerAttack.isAttacking = false;
         isHit = true;
 
-        Invoke("Stop", 1f);
+        Invoke("Stop", 0.1f);
     }
 
     void Stop()

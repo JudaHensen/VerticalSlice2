@@ -18,15 +18,17 @@ public class BossAttack : MonoBehaviour
     {
         range = bossAi.GetRange();
 
-        if (range <= Boss.attackRange)
+        if (range <= Boss.attackRange && BossAI.ignoreTime <= 0)
         {
             isAttacking = true;
-            Invoke("Stop", 1.75f);
+            Invoke("Stop", 1.55f);
         }
     }
 
     public void Attack()
     {
+        bossAi.SetIgnoreTime();
+
         if (range < Boss.followRange - 1f)
         {
             Player.health -= Boss.damage;

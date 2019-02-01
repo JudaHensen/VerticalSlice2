@@ -17,7 +17,7 @@ public class backgroundMove : MonoBehaviour {
 
     private void Start()
     {
-        speed = speed / 10;
+        speed = (speed / 10);
         originPos = new Vector2(transform.position.x, transform.position.y);
         targetPosX = target.transform.position.x;
         targetPosY = target.transform.position.y;

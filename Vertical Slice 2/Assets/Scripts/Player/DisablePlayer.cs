@@ -13,19 +13,27 @@ public class DisablePlayer : MonoBehaviour {
     private float maxY = 15f;
     private float speed = 0.9f;
 
+    public GameObject deathScreen;
+    private AudioSystem audioSystem;
+
     private void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();
         playerAttack = GetComponent<PlayerAttack>();
         playerAnimations = GetComponent<PlayerAnimations>();
         rb = GetComponent<Rigidbody2D>();
+        
+        audioSystem = GameObject.FindWithTag("AudioSystem").GetComponent<AudioSystem>();
     }
 
     public void Ascend()
     {
-        gameObject.tag = "Untagged";
-        DisableEnabled();
+
         Invoke("MoveCorpse", 2f);
+        DisableEnabled();
+        //gameObject.tag = "Untagged";
+        deathScreen.SetActive(true);
+        audioSystem.Kill("player"); // string must be "player" or "boss"
     }
 
     void DisableEnabled()

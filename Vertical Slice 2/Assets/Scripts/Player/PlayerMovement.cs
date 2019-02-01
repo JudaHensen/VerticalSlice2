@@ -62,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void MoveLeft()
     {
-        if (Player.health <= 0)
+        if (Player.health <= 0 || PlayerAttack.isAttacking)
             return;
 
         if (speed < maxSpeed)
@@ -78,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void MoveRight()
     {
-        if (Player.health <= 0)
+        if (Player.health <= 0 || PlayerAttack.isAttacking)
             return;
 
         if (speed < maxSpeed)

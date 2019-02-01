@@ -25,6 +25,9 @@ public class Healthbar : MonoBehaviour {
 
     void Update()
     {
+
+        percentage = Player.health;
+
         if (currentPercentage < percentage) currentPercentage = percentage;
         if (currentPercentage > percentage && !fallOff) EnableFallOff();
 

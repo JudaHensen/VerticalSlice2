@@ -10,16 +10,25 @@ public class DisableBoss : MonoBehaviour {
     private float maxY = -10f;
     private float speed = -0.9f;
 
+    private AudioSystem audioSystem;
+    private ScoreSystem scoreSystem;
+
     private void Start()
     {
         bossAttack = GetComponent<BossAttack>();
         bossAnimations = GetComponent<BossAnimations>();
+
+        audioSystem = GameObject.FindWithTag("AudioSystem").GetComponent<AudioSystem>();
+        scoreSystem = GameObject.FindWithTag("ScoreSystem").GetComponent<ScoreSystem>();
     }
 
     public void Descend()
     {
+        audioSystem.Kill("boss"); // string must be "player" or "boss"
+        scoreSystem.AddScore(Random.Range(0, 1000)); // add X amount to the score
         DisableEnabled();
         Invoke("MoveCorpse", 2f);
+
     }
 
     void DisableEnabled()
