@@ -8,6 +8,7 @@ TagManager:
   - AudioSystem
   - Enemy
   - Attacking
+  - HitBox
   layers:
   - Default
   - TransparentFX

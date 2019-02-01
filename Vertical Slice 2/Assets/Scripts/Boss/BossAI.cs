@@ -2,9 +2,6 @@
 
 public class BossAI : MonoBehaviour
 {
-
-    private static Boss boss = new Boss();
-
     [SerializeField]
     private float minX;
     [SerializeField]
@@ -12,195 +9,144 @@ public class BossAI : MonoBehaviour
     [SerializeField]
     private float yPos;
 
-    private float health = boss.health;
-    private float speed = boss.moveSpeed;
+    private float chaseAmp = 1.5f;
 
     private bool isAtMax = false;
 
-    private Vector2 dest;
-
-    private float followRange = 0.9f;
-    private float attackRange = 0.6f;
     private float distanceToTarget;
-    private bool isAttacking = false;
-    private bool isDead = false;
-    private bool isHit = false;
-    private float hitCoolDown;
     private GameObject player;
     private GameObject target;
-    private int state = 0;
 
     private BossAI bossAi;
+    private BossRend bossRend;
     private BossAnimations anim;
+
 
     private void Start()
     {
         anim = GetComponent<BossAnimations>();
         transform.position = new Vector2(minX, yPos);
         bossAi = GetComponent<BossAI>();
-        dest = new Vector2(maxX, yPos);
+        bossRend = FindObjectOfType<BossRend>();
         transform.eulerAngles = new Vector3(transform.rotation.x, 0f, transform.rotation.z);
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, followRange);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 
     void FixedUpdate()
     {
-        if (!isDead)
+
+        if (Boss.health <= 0)
         {
-            anim.SetState(state);
-
-            player = GameObject.FindGameObjectWithTag("Player");
-
-            if (player == null)
-            {
-                player = GameObject.FindGameObjectWithTag("Attacking");
-            }
-
-            distanceToTarget = Vector2.Distance(transform.position, player.transform.position);
-
-            if (player != null && distanceToTarget <= followRange && !isAttacking)
-            {
-                target = player;
-            }
-            else
-            {
-                target = null;
-            }
-
-            if (target != null)
-            {
-
-                state = 0;
-
-                if (distanceToTarget <= attackRange)
-                {
-                    Debug.Log("Player Within Range");
-                    isAttacking = true;
-                    state = 1;
-                    Invoke("Attack", 1f);
-                    return;
-                }
-
-                if (target.transform.position.x < transform.position.x)
-                {
-                    isAtMax = true;
-                    transform.position = new Vector2(transform.position.x - (speed * Time.deltaTime), transform.position.y);
-                }
-                else
-                {
-                    isAtMax = false;
-                    transform.position = new Vector2(transform.position.x + (speed * Time.deltaTime), transform.position.y);
-                }
-
-
-            }
-            else if (!isAttacking)
-            {
-                state = 0;
-
-                if (transform.position.x > maxX)
-                {
-                    isAtMax = true;
-                    SetDest();
-                }
-                else if (transform.position.x < minX)
-                {
-                    SetDest();
-                    isAtMax = false;
-                }
-
-                if (isAtMax)
-                {
-                    transform.position = new Vector2(transform.position.x - (speed * Time.deltaTime), transform.position.y);
-                }
-                else
-                {
-                    transform.position = new Vector2(transform.position.x + (speed * Time.deltaTime), transform.position.y);
-                }
-            }
-
-            if (!isAtMax)
-            {
-                transform.eulerAngles = new Vector3(transform.rotation.x, 180f, transform.rotation.z);
-            }
-            else
-            {
-                transform.eulerAngles = new Vector3(transform.rotation.x, 0f, transform.rotation.z);
-            }
-
-            if (hitCoolDown > 0)
-            {
-                hitCoolDown -= Time.deltaTime;
-            } else
-            {
-                isHit = false;
-                Debug.Log(isHit);
-            }
-
-
-            if (health <= 0)
-            {
-                //attacking set true to stop update
-                Debug.Log("Die");
-                isDead = true;
-                state = 4;
-                anim.SetState(state);
-                Invoke("Die", 1f);
-            }
+            bossAi.enabled = false;
         }
-    }
 
-    void Attack()
-    {
-        isAttacking = false;
-    }
-
-    void SetDest()
-    {
-        if (isAtMax)
+        if (BossAttack.isAttacking)
         {
-            dest = new Vector2(minX, yPos);
+            return;
+        }
+
+        //Find the player
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Attacking");
+        }
+
+        //Calculate distance
+        if (player != null)
+            distanceToTarget = GetRange();
+
+        //check if the player is within follow range
+        if (player != null && distanceToTarget <= Boss.followRange)
+        {
+            target = player;
         }
         else
         {
-            dest = new Vector2(maxX, yPos);
+            target = null;
         }
-    }
 
-    public void Hit(float amount)
-    {
-        if (health > 0)
+        //check if a target is found
+        if (target)
         {
-            state = 2;
-
-            if (!isHit)
+            if (distanceToTarget > Boss.attackRange)
             {
-                isHit = true;
-                hitCoolDown = (1f / 3f) * 2;
-                health -= amount;
-                Debug.Log(health);
+                //follow target
+                if (target.transform.position.x < transform.position.x)
+                {
+                    isAtMax = true;
+                    bossRend.setFlipX(false);
+                    transform.position = new Vector2(transform.position.x - (Boss.moveSpeed * chaseAmp * Time.deltaTime), transform.position.y);
+                }
+                else
+                {
+                    isAtMax = false;
+                    bossRend.setFlipX(true);
+                    transform.position = new Vector2(transform.position.x + (Boss.moveSpeed * chaseAmp * Time.deltaTime), transform.position.y);
+                }
+                return;
             }
-        } else
-        {
-            Debug.Log("Die");
-            isDead = true;
-            state = 4;
-            anim.SetState(state);
-            Invoke("Die", 1f);
+            else
+            {
+                return;
+            }
         }
+
+        //set bool and flip image 
+        if (transform.position.x > maxX)
+        {
+            isAtMax = true;
+        }
+        else if (transform.position.x < minX)
+        {
+            isAtMax = false;
+        }
+
+        //move boss
+        if (isAtMax)
+        {
+            transform.position = new Vector2(transform.position.x - (Boss.moveSpeed * Time.deltaTime), transform.position.y);
+            bossRend.setFlipX(false);
+        }
+        else
+        {
+            transform.position = new Vector2(transform.position.x + (Boss.moveSpeed * Time.deltaTime), transform.position.y);
+            bossRend.setFlipX(true);
+        }
+
     }
 
-    void Die()
+
+    public float GetRange()
     {
-        Debug.Log("DED");
-        bossAi.enabled = false;
+        if (player)
+        {
+            return Vector2.Distance(transform.position, player.transform.position);
+        }
+        return Mathf.Infinity;
     }
+
 }
+
+//public void Hit(float amount)
+//{
+//    if (health > 0)
+//    {
+//        state = 2;
+
+//        if (!isHit)
+//        {
+//            isHit = true;
+//            hitCoolDown = (1f / 3f) * 2;
+//            health -= amount;
+//            Debug.Log(health);
+//        }
+//    } else
+//    {
+//        Debug.Log("Die");
+//        isDead = true;
+//        state = 4;
+//        anim.SetState(state);
+//        Invoke("Die", 1f);
+//    }
+//}
+

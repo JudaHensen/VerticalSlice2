@@ -1,15 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class InputHandler : MonoBehaviour
 {
-
     private PlayerMovement movement;
+    private PlayerAttack playerAttack;
 
     void Start()
     {
         movement = FindObjectOfType<PlayerMovement>();
+        playerAttack = FindObjectOfType<PlayerAttack>();
     }
 
     //Movement
@@ -23,10 +22,26 @@ public class InputHandler : MonoBehaviour
 
     //Actions
     private KeyCode attack = KeyCode.Mouse0;
+
+
+    //TO-DO
     //private KeyCode menu = KeyCode.Escape;
     //private KeyCode testFunction = KeyCode.T;
 
     void Update()
+    {
+        if (Player.health > 0)
+        {
+            UpdatePlayer();
+        }
+
+        //if (Input.GetKeyDown(attack))
+        //{
+        //    Boss.health = 0;
+        //}
+    }
+
+    void UpdatePlayer()
     {
         //Movement
         if (Input.GetKey(movLeft))
@@ -38,12 +53,12 @@ public class InputHandler : MonoBehaviour
             movement.MoveRight();
         }
 
-        if(Input.GetKey(movRight) && Input.GetKey(dash) || Input.GetKey(movLeft) && Input.GetKey(dash))
+        if (Input.GetKey(movRight) && Input.GetKey(dash) || Input.GetKey(movLeft) && Input.GetKey(dash))
         {
             movement.Dash();
         }
 
-        if(!Input.GetKey(movLeft) && !Input.GetKey(movRight))
+        if (!Input.GetKey(movLeft) && !Input.GetKey(movRight))
         {
             movement.SlowDown();
         }
@@ -55,17 +70,8 @@ public class InputHandler : MonoBehaviour
 
         if (Input.GetKeyDown(attack))
         {
-            movement.Attack();
+            playerAttack.AddCombo();
         }
 
-        //if (Input.GetKeyDown(menu))
-        //{
-        // open pause menu
-        //}
-
-            //if (Input.GetKeyDown(testFunction))
-            //{
-            // Test Function
-            //}
     }
 }

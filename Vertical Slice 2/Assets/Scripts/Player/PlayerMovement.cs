@@ -1,61 +1,56 @@
 ﻿using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour
+{
 
-    private static Player player = new Player();
+    private SpriteRenderer sprite;
+
     private PlayerAnimations playerAnim;
 
-    private float minSpeed = player.minSpeed;
-    private float maxSpeed = player.maxSpeed;
-    private float acceleration = player.acceleration;
-    private float maxJumpHeight = player.maxJumpHeight;
-    private float speed = player.speed;
-    
-    private float dashCoolDown = player.dashCoolDown;
-    private float airTime = player.airTime;
-    private float yPos;
+    private float minSpeed = Player.minSpeed;
+    private float maxSpeed = Player.maxSpeed;
+    private float acceleration = Player.acceleration;
+    private float speed;
 
-    private float horizontalMove;
+    private float jumpForce = Player.jumpForce;
+    private float jumpTime = Player.airTime;
+    private float jumpCoolDown = Player.jumpCoolDown;
 
-    private int state = 0;
+    private float dashCoolDown = Player.dashCoolDown;
 
     private bool isJumping;
     private bool isDashing;
-    private bool isAttacking;
+    private bool isRunning;
+
 
     private Rigidbody2D rb;
 
     private void Start()
     {
         isJumping = false;
-        isAttacking = false;
         playerAnim = GetComponent<PlayerAnimations>();
         rb = GetComponent<Rigidbody2D>();
+        sprite = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
     {
-        if (rb.velocity.y < 0)
-        {
-            rb.position += new Vector2(0, 0.004f);
-        }
 
-        if (speed <= minSpeed && !isJumping)
-        {
-            state = 0;
-        }
-        
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            airTime = 0f;
-        }
+        if (Player.health <= 0)
+            return;
 
         if (dashCoolDown > 0)
         {
             dashCoolDown -= Time.deltaTime;
-        } else if(isDashing)
+        }
+        else if (isDashing)
         {
             isDashing = false;
+        }
+
+        if (jumpCoolDown > 0)
+        {
+            jumpCoolDown -= Time.deltaTime;
         }
 
 
@@ -63,37 +58,48 @@ public class PlayerMovement : MonoBehaviour {
         {
             rb.velocity = rb.velocity.normalized * maxSpeed;
         }
-
-        playerAnim.SetState(state);
     }
-    
+
     public void MoveLeft()
     {
+        if (Player.health <= 0)
+            return;
+
         if (speed < maxSpeed)
         {
             speed += acceleration;
         }
 
-        state = 1;
+        sprite.flipX = true;
+        isRunning = true;
 
         rb.position -= new Vector2((speed * Time.deltaTime) / 100, 0f);
     }
 
     public void MoveRight()
     {
+        if (Player.health <= 0)
+            return;
+
         if (speed < maxSpeed)
         {
             speed += acceleration;
         }
 
-        state = 1;
+        sprite.flipX = false;
+        isRunning = true;
 
         rb.position += new Vector2((speed * Time.deltaTime) / 100, 0f);
     }
 
     public void SlowDown()
     {
-        if (speed > minSpeed && !isDashing)
+        if (Player.health <= 0)
+            return;
+
+        isRunning = false;
+
+        if (speed > minSpeed && !isDashing && !isJumping)
         {
             speed -= acceleration * 20 * Time.deltaTime;
         }
@@ -101,54 +107,40 @@ public class PlayerMovement : MonoBehaviour {
 
     public void Jump()
     {
-            if (!isJumping)
-            {
-                airTime = 0.4f;
-                yPos = GetHeight();
-                isJumping = true;
-            }
+        if (Player.health <= 0)
+            return;
 
-            airTime -= Time.deltaTime;
-   
-            if (airTime > 0)
-            {
-                rb.position += new Vector2(0f, maxJumpHeight * Time.deltaTime);
-                state = 3;
-            }
+        if (!isJumping)
+        {
+            jumpTime = Player.airTime;
+            isJumping = true;
         }
+
+        jumpTime -= Time.deltaTime;
+
+        if (jumpTime > 0)
+        {
+            rb.position += new Vector2(0f, jumpForce * Time.deltaTime);
+        }
+    }
 
     public void Dash()
     {
-        if (!isDashing)
+        if (Player.health <= 0)
+            return;
+
+        if (!isDashing && !isJumping && dashCoolDown <= 0)
         {
             isDashing = true;
-            speed += 100;
-            state = 2;
+            speed += 500;
             Invoke("Stop", 0.1f);
         }
     }
 
     private void Stop()
     {
-        speed -= 100;
+        speed -= 500;
         dashCoolDown = 1f;
-    }
-
-    private float GetHeight()
-    {
-        return transform.position.y;
-    }
-
-    public void Attack()
-    {
-        gameObject.tag = "Attacking";
-        Invoke("ResetTag", 1f);
-    }
-
-    void ResetTag()
-    {
-        
-        gameObject.tag = "Player";
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -160,8 +152,31 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        isJumping = false;
+        if (jumpCoolDown <= 0 && collision.transform.tag != "HitBox")
+        {
+            isJumping = false;
+        }
+    }
+
+    private float GetHeight()
+    {
+        return transform.position.y;
+    }
+
+    public bool GetJump()
+    {
+        return isJumping;
+    }
+
+    public bool GetDash()
+    {
+        return isDashing;
+    }
+
+    public bool GetRunning()
+    {
+        return isRunning;
     }
 }
