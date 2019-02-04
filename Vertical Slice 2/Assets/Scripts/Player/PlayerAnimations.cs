@@ -44,7 +44,7 @@ public class PlayerAnimations : MonoBehaviour
             return PlayerAnimationStates.attack2;
         if (PlayerAttack.isAttacking == true && PlayerAttack.combo == 2)
             return PlayerAnimationStates.attack3;
-
+        
         //check is player is jumping
         if (playerMovement.GetJump())
             return PlayerAnimationStates.jump;

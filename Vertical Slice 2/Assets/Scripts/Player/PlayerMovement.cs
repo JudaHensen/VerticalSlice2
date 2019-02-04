@@ -133,13 +133,14 @@ public class PlayerMovement : MonoBehaviour
         {
             isDashing = true;
             speed += 500;
-            Invoke("Stop", 0.1f);
+            Invoke("Stop", 0.2f);
         }
     }
 
     private void Stop()
     {
         speed -= 500;
+        isDashing = false;
         dashCoolDown = 1f;
     }
 
