@@ -18,7 +18,7 @@ public class AudioSystem : MonoBehaviour {
     // General Fx
     public event Action PlayerDeath, BossDeath, BossSlain, UIButtonClick;
 
-
+    // Update bossSlain timer, after the boss is killed
     void Update()
     {
         if(bossIsSlain && bossSlainTimer < bossSlainDelay)
@@ -62,6 +62,7 @@ public class AudioSystem : MonoBehaviour {
         UIButtonClick();       
     }
 
+    // Player or Boss death
     public void Kill(string entity)
     {
         switch (entity) {

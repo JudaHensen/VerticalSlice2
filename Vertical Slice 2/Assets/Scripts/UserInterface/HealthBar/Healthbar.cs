@@ -22,10 +22,9 @@ public class Healthbar : MonoBehaviour {
         image = GetComponent<Image>();
     }
 
-
+    // Update healthbar smoothing
     void Update()
     {
-
         percentage = Player.health;
 
         if (currentPercentage < percentage) currentPercentage = percentage;
@@ -36,6 +35,7 @@ public class Healthbar : MonoBehaviour {
         UpdateBar();
     }
 
+    // Update healtbar falloff
     private void FalloffUpdater()
     {
         if (fallOff)
@@ -45,16 +45,19 @@ public class Healthbar : MonoBehaviour {
         }
     }
 
+    // Set player health
     public void SetCurrent(float value)
     {
         percentage = value;
     }
 
+    // Enable healthbar smoothing
     private void EnableFallOff()
     {
         fallOff = true;
     }
 
+    // Update healthbar fill
     private void UpdateBar()
     {
         image.fillAmount = currentPercentage / 100;

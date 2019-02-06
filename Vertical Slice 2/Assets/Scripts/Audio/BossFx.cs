@@ -32,16 +32,19 @@ public class BossFx : MonoBehaviour {
         audioSystem.BossWalk += OnWalk;
     }
 
+    // play on boss slash
     private void OnSlash() {
         sourceSlash.clip = bossSlash;
         sourceSlash.Play();
     }
 
+    // play on boss attack hit
     private void OnHit() {
         sourceHit.clip = bossHit;
         sourceHit.Play();
     }
 
+    // play when the boss is walking
     private void OnWalk(bool value) {
         if(value && !isRunning)
         {

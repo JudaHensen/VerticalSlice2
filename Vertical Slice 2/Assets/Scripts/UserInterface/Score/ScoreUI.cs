@@ -18,6 +18,7 @@ public class ScoreUI : MonoBehaviour {
         scoreSystem.ScoreUpdate += UpdateDisplay;
     }
 
+    // update the score in the scene
     private void UpdateDisplay(int value)
     {
         text.text = message + value.ToString();

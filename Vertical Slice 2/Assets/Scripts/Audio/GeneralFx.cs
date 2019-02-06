@@ -30,25 +30,29 @@ public class GeneralFx : MonoBehaviour {
         audioSystem.UIButtonClick += MenuClick;
     }
 
+    // play when the player is dead
     private void PlayerDeath() {
         source.clip = playerDeathFx[Random.Range(0, playerDeathFx.Count)];
         source.Play();
     }
 
+    // play when the boss is dead
     private void BossDeath() {
         source.clip = bossDeathFx[Random.Range(0, bossDeathFx.Count)];
         source.Play();
     }
 
-    private void MenuClick()
+    // play after bossDeath
+    private void BossSlain()
     {
-        source.clip = menuClickFx;
+        source.clip = bossSlainFx;
         source.Play();
     }
 
-
-    private void BossSlain() {
-        source.clip = bossSlainFx;
+    // play when a menu item is clicked
+    private void MenuClick()
+    {
+        source.clip = menuClickFx;
         source.Play();
     }
 }

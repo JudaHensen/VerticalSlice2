@@ -32,16 +32,19 @@ public class PlayerFx : MonoBehaviour {
         audioSystem.PlayerWalk += OnWalk;
     }
 
+    // on player slash, play fx
     private void OnSlash(int value) {
         sourceSlash.clip = playerSlashes[value];
         sourceSlash.Play();
     }
 
+    // on player attack hit, play fx
     private void OnHit(int value) {
         sourceHit.clip = playerHits[value];
         sourceHit.Play();
     }
 
+    // when the player is walking, play fx
     private void OnWalk(bool value) {
         if(value && !isRunning)
         {

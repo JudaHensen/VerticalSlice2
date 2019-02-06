@@ -12,7 +12,7 @@ public class PauseMenu : MonoBehaviour
     private GameObject pauseMenu;
     private bool isPaused = false;
 
-
+    // Resume or Pause the game
     public void ActivatePause()
     {
         if (!isPaused) Pause();

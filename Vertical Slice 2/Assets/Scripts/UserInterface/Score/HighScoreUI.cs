@@ -19,6 +19,7 @@ public class HighScoreUI : MonoBehaviour{
         scoreSystem.HighScoreUpdate += UpdateDisplay;
     }
 
+    // update highscore in the scene
     private void UpdateDisplay(int value)
     {
         text.text = message + value.ToString();

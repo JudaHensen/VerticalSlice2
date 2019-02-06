@@ -28,7 +28,7 @@ public class LevelSystem : MonoBehaviour
     private bool bossSlain = false;
     private float spawnTimer;
 
-
+    // spawn boss after a small delay
     void Update()
     {
         if(!bossSpawned)
@@ -39,6 +39,8 @@ public class LevelSystem : MonoBehaviour
         
     }
 
+
+    // spawn the boss
     private void SpawnBoss()
     {
         bossSpawned = true;
