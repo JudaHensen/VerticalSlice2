@@ -1,7 +1,7 @@
 ﻿public static class Player
 {
     public static float health = 100f;
-    public static float damage = 100f;
+    public static float damage = 30f;
     public static float attackSpeed = 0.2f;
     public static float attackRange = 2.5f;
     public static float minSpeed = 90f;

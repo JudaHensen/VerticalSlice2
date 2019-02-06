@@ -2,7 +2,7 @@
 
 public class PlayerAttack : MonoBehaviour
 {
-    public static bool isAttacking = false;
+    public static bool isAttacking;
     private bool isComboing = false;
 
     private AudioSystem audioSystem;
@@ -19,6 +19,7 @@ public class PlayerAttack : MonoBehaviour
     {
         audioSystem = GameObject.FindWithTag("AudioSystem").GetComponent<AudioSystem>();
         rb = GetComponent<Rigidbody2D>();
+        isAttacking = false;
     }
 
     void Update()
@@ -55,16 +56,13 @@ public class PlayerAttack : MonoBehaviour
 
     public void Attack()
     {
-        isAttacking = true;
-
         if (range < Boss.followRange - 1f)
         {
             Boss.health -= Player.damage;
             audioSystem.PlayerAttackSlash((int)combo); // value is 0,1,2
-            combo++;
-            
-            isComboing = false;
         }
+        combo++;
+        isComboing = false;
         Invoke("Stop", 0.4f);
     }
 
